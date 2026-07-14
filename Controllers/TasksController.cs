@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TaskManagementAPI.DTOs;
 using TaskManagmentAPI.Data;
+using TaskManagmentAPI.DTOs;
 using TaskManagmentAPI.Models;
 
 namespace TaskManagmentAPI.Controllers
@@ -17,46 +20,73 @@ namespace TaskManagmentAPI.Controllers
         [HttpGet]
         public IActionResult GetAllTasks() 
         {
-            var tasks = _context.Tasks.ToList();
-            return Ok(tasks);
+            var tasks = _context.Tasks // Mapping
+                .Select(task => new TaskResponseDTO
+                {
+                    Id = task.Id,
+                    Title = task.Title,
+                    Description = task.Description,
+                    IsDone = task.IsDone,
+                    CreateDate = task.CreateDate,
+                    CategoryName = task.Category != null ? task.Category.Name : "Uncategorized"
+                })
+                .ToList();
+                return Ok(tasks);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetTaskById(int id) 
         {
-            var task = _context.Tasks.Find(id);
-            if(task == null){return NotFound();}
+            var taskDto = _context.Tasks
+                .Where(t => t.Id == id) // filter
+                .Select(task => new TaskResponseDTO // mapping
+                {
+                    Id = task.Id,
+                    Title = task.Title,
+                    Description = task.Description,
+                    IsDone = task.IsDone,
+                    CreateDate = task.CreateDate,
+                    CategoryName = task.Category != null ? task.Category.Name : "Uncategorized"
 
-            return Ok(task);
+                })
+                .FirstOrDefault();
+                
+                if(taskDto == null) {return NotFound("There is no task associated with this ID.");}
+
+                return Ok(taskDto);
         }
 
         [HttpPost]
-        public IActionResult CreateTask(TaskItem newTask)
+        public IActionResult CreateTask(CreateTaskDTO taskDTO)
         {
+            var newTask = new TaskItem // Mapping
+            {
+                Title = taskDTO.Title,
+                Description = taskDTO.Description,
+                CategoryId = taskDTO.CategoryId
+            };
+            
             _context.Tasks.Add(newTask);
             _context.SaveChanges();
-
-            return CreatedAtAction(nameof(GetTaskById), new {id = newTask.Id}, newTask);
+            return Ok(new {Message = "Task successfully added.", TaskId = newTask.Id});
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateTask(int id, TaskItem updatedTask)
+        public IActionResult UpdateTask(int id, UpdateTaskDTO taskDto)
         {
-             if(id != updatedTask.Id)
-             {return BadRequest("The IDs don't match");} // Check for id matches. URL-JSON
+            var existingTask = _context.Tasks.Find(id);
 
-             var existingTask = _context.Tasks.Find(id);
-             
-             if(existingTask == null)
-             {return NotFound("There is no task associated with this ID.");} // Check for is task absent.
+            if(existingTask == null){ return NotFound("There is no task associated with this ID.");}
 
-             existingTask.Title = updatedTask.Title;
-             existingTask.Description = updatedTask.Description;
-             existingTask.IsDone = updatedTask.IsDone;
+            // mapping
+            existingTask.Title = taskDto.Title;
+            existingTask.Description = taskDto.Description;
+            existingTask.CategoryId = taskDto.CategoryId;
+            existingTask.IsDone = taskDto.IsDone;
 
-             _context.SaveChanges();
+            _context.SaveChanges();
 
-             return NoContent();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]

@@ -13,7 +13,7 @@ namespace TaskManagmentAPI.Models
 
         [MaxLength(500)]
         public string Description {get;set;}
-        public bool IsDone {get;set;}
+        public bool IsDone {get;set;} // False by default
         public DateTime CreateDate {get;set;} = DateTime.Now; // Default created time.
 
         public int CategoryId {get;set;} // Category foreing key
