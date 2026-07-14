@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TaskManagmentAPI.Data;
+using TaskManagementAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseMiddleware<ExceptionMiddleware>();
 }
 
 app.UseHttpsRedirection();
