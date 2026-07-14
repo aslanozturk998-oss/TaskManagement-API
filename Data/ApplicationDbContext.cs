@@ -8,5 +8,7 @@ namespace TaskManagmentAPI.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options){}
 
         public DbSet<TaskItem> Tasks {get;set;}
+
+        public DbSet<Category> Categories {get;set;}
     }
 }
