@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TaskManagmentAPI.Data;
+using TaskManagementAPI.Data;
 
 #nullable disable
 
-namespace TaskManagmentAPI.Migrations
+namespace TaskManagementAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20260714014915_AddTaskConstraints")]
@@ -25,7 +25,7 @@ namespace TaskManagmentAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TaskManagmentAPI.Models.TaskItem", b =>
+            modelBuilder.Entity("TaskManagementAPI.Models.TaskItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

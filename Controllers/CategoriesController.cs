@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using TaskManagementAPI.DTOs;
-using TaskManagmentAPI.Data;
-using TaskManagmentAPI.Models;
+using TaskManagementAPI.Data;
+using TaskManagementAPI.Models;
 
 namespace TaskManagementAPI.Controllers
 {

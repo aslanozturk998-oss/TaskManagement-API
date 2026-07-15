@@ -1,4 +1,4 @@
-namespace TaskManagmentAPI.DTOs
+namespace TaskManagementAPI.DTOs
 {
     public class TaskResponseDTO
     {

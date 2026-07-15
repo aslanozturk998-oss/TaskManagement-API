@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace TaskManagmentAPI.Migrations
+namespace TaskManagementAPI.Migrations
 {
     /// <inheritdoc />
     public partial class AddTaskConstraints : Migration

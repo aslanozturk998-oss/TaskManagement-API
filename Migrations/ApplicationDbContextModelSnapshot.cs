@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TaskManagmentAPI.Data;
+using TaskManagementAPI.Data;
 
 #nullable disable
 
-namespace TaskManagmentAPI.Migrations
+namespace TaskManagementAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace TaskManagmentAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TaskManagmentAPI.Models.Category", b =>
+            modelBuilder.Entity("TaskManagementAPI.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,7 +40,7 @@ namespace TaskManagmentAPI.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("TaskManagmentAPI.Models.TaskItem", b =>
+            modelBuilder.Entity("TaskManagementAPI.Models.TaskItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -74,9 +74,9 @@ namespace TaskManagmentAPI.Migrations
                     b.ToTable("Tasks");
                 });
 
-            modelBuilder.Entity("TaskManagmentAPI.Models.TaskItem", b =>
+            modelBuilder.Entity("TaskManagementAPI.Models.TaskItem", b =>
                 {
-                    b.HasOne("TaskManagmentAPI.Models.Category", "Category")
+                    b.HasOne("TaskManagementAPI.Models.Category", "Category")
                         .WithMany("Tasks")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -85,7 +85,7 @@ namespace TaskManagmentAPI.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("TaskManagmentAPI.Models.Category", b =>
+            modelBuilder.Entity("TaskManagementAPI.Models.Category", b =>
                 {
                     b.Navigation("Tasks");
                 });
